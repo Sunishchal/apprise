@@ -142,33 +142,33 @@ def run():
             else:
                 result += f"There are no {sub_interest} documents published today.\n\n"
 
-            # Append unsubscribe link
-            formatted_abstracts += "\n\n-----------Thank you for using Apprise--------\n\n" + "Have some feedback on your summary? Please reply to this email, it's a monitored inbox.\nWant to unsubscribe from future emails? Click this: https://airtable.com/shrRGWVwlwWDxH9gL"
+        # Append unsubscribe link
+        formatted_abstracts += "\n\n-----------Thank you for using Apprise--------\n\n" + "Have some feedback on your summary? Please reply to this email, it's a monitored inbox.\nWant to unsubscribe from future emails? Click this: https://airtable.com/shrRGWVwlwWDxH9gL"
 
-            # Append abstracts and full text links
-            result += "\n\n-----------Federal Register Abstracts--------\n\n" + formatted_abstracts
+        # Append abstracts and full text links
+        result += "\n\n-----------Federal Register Abstracts--------\n\n" + formatted_abstracts
 
-            # Set up email message
-            msg = MIMEMultipart()
-            msg['Subject'] = 'Federal Register AI Summary ' + str(date)
-            msg['From'] = from_email
-            msg['To'] = to_email
+        # Set up email message
+        msg = MIMEMultipart()
+        msg['Subject'] = 'Federal Register AI Summary ' + str(date)
+        msg['From'] = from_email
+        msg['To'] = to_email
 
-            # Add text to email
-            body = MIMEText(result)
-            msg.attach(body)
+        # Add text to email
+        body = MIMEText(result)
+        msg.attach(body)
 
-            # Send email using SMTP server
-            smtp_server = 'smtp.gmail.com'
-            smtp_port = 587
-            smtp_username = from_email
-            smtp_password = GMAIL_PASS
+        # Send email using SMTP server
+        smtp_server = 'smtp.gmail.com'
+        smtp_port = 587
+        smtp_username = from_email
+        smtp_password = GMAIL_PASS
 
-            with smtplib.SMTP(smtp_server, smtp_port) as server:
-                server.starttls()
-                server.login(smtp_username, smtp_password)
-                server.sendmail(smtp_username, msg['To'], msg.as_string())
-                to_emails.append(to_email)
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()
+            server.login(smtp_username, smtp_password)
+            server.sendmail(smtp_username, msg['To'], msg.as_string())
+            to_emails.append(to_email)
 
     print('Sent emails to ', to_emails)
 
