@@ -58,9 +58,10 @@ def run():
         date = datetime.date.today() - datetime.timedelta(1)
     else:
         date = datetime.date.today()
-        year = date.strftime("%Y")
-        month = date.strftime("%m")
-        day = date.strftime("%d")
+        
+    year = date.strftime("%Y")
+    month = date.strftime("%m")
+    day = date.strftime("%d")
 
     # Define the API endpoint to retrieve today's Federal Register documents
     url = f"https://www.federalregister.gov/api/v1/issues/{year}-{month}-{day}.json"
