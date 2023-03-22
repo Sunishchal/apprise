@@ -39,6 +39,20 @@ def num_tokens_from_string(string: str, encoding_name: str) -> int:
     return num_tokens
 
 @retry(wait=wait_random_exponential(min=1, max=60), stop=stop_after_attempt(6))
+def gpt_summary(gpt_model, summary_size, abstracts):
+    return openai.ChatCompletion.create(
+                  model=gpt_model,
+                  messages=[
+                    {"role": "system", "content": f"You are an expert on US Government who will read abstracts from the Federal Register and generate easy to understand summaries using less than {summary_size} tokens. Please use proper grammar and punctuation, write in pragraph form, and avoid run-on sentences."},
+                    {"role": "user", "content": abstracts}
+                  ],
+                  max_tokens=summary_size,
+                  temperature=1,
+                  presence_penalty=1,
+                  frequency_penalty=1
+                )
+
+
 def run():
     # Retrieve API Keys & Gmail app password from env variables
     OPENAI_KEY = os.getenv('OPENAI_KEY')
@@ -118,17 +132,7 @@ def run():
             if token_count + summary_size <= 8000 and len(abstracts) > 0:
 
                 # Call the Chat GPT-3.5 API asking for a summary
-                response = openai.ChatCompletion.create(
-                  model=gpt_model,
-                  messages=[
-                    {"role": "system", "content": f"You are an expert on US Government who will read abstracts from the Federal Register and generate easy to understand summaries using less than {summary_size} words. Please use proper grammar and punctuation, write in pragraph form, and avoid run-on sentences."},
-                    {"role": "user", "content": abstracts}
-                  ],
-                  max_tokens=summary_size,
-                  temperature=1,
-                  presence_penalty=1,
-                  frequency_penalty=1
-                )
+                response = gpt_summary(gpt_model, summary_size, abstracts)
 
                 # Extract the summary from the API response
                 summary = response["choices"][0]["message"]["content"]
