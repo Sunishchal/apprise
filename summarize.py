@@ -7,7 +7,6 @@ import openai
 import os
 import requests
 import datetime
-from google.cloud import secretmanager
 from pyairtable import Table
 import pandas as pd
 
