@@ -94,19 +94,19 @@ def run():
 
             abstracts = ''
             for doc_num in doc_numbers:
-            # Define the API endpoint to retrieve a single document of interest
-            url = f"https://www.federalregister.gov/api/v1/documents/{doc_num}.json?fields[]=abstract&fields[]=pdf_url&fields[]=title"
+                # Define the API endpoint to retrieve a single document of interest
+                url = f"https://www.federalregister.gov/api/v1/documents/{doc_num}.json?fields[]=abstract&fields[]=pdf_url&fields[]=title"
 
-            # Make the API request
-            response = requests.get(url).json()
-            doc_abstract = response.get('abstract')
-            pdf_url = response.get('pdf_url')
-            title = response.get('title')
+                # Make the API request
+                response = requests.get(url).json()
+                doc_abstract = response.get('abstract')
+                pdf_url = response.get('pdf_url')
+                title = response.get('title')
 
-            # Append the abstract to a text file, skipping the documents with no abstract or PRA related text
-            if doc_abstract is not None and 'Paperwork Reduction Act' not in doc_abstract:
-                abstracts += doc_abstract + '\n\n'
-                formatted_abstracts += f"{title}: \n{doc_abstract} \nFull document: {pdf_url}\n\n"
+                # Append the abstract to a text file, skipping the documents with no abstract or PRA related text
+                if doc_abstract is not None and 'Paperwork Reduction Act' not in doc_abstract:
+                    abstracts += doc_abstract + '\n\n'
+                    formatted_abstracts += f"{title}: \n{doc_abstract} \nFull document: {pdf_url}\n\n"
 
             # Make a summary that's about 30% the size of the abstracts
             token_count = num_tokens_from_string(abstracts, gpt_model)
