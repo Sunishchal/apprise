@@ -9,6 +9,7 @@ import requests
 import datetime
 from pyairtable import Table
 import pandas as pd
+from tenacity import retry, stop_after_attempt, wait_random_exponential
 
 
 def TableDF(table):
@@ -37,6 +38,7 @@ def num_tokens_from_string(string: str, encoding_name: str) -> int:
     num_tokens = len(encoding.encode(string))
     return num_tokens
 
+@retry(wait=wait_random_exponential(min=1, max=60), stop=stop_after_attempt(6))
 def run():
     # Retrieve API Keys & Gmail app password from env variables
     OPENAI_KEY = os.getenv('OPENAI_KEY')
