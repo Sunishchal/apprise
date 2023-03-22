@@ -60,7 +60,7 @@ def run():
         date = datetime.date.today()
         year = date.strftime("%Y")
         month = date.strftime("%m")
-    day = date.strftime("%d")
+        day = date.strftime("%d")
 
     # Define the API endpoint to retrieve today's Federal Register documents
     url = f"https://www.federalregister.gov/api/v1/issues/{year}-{month}-{day}.json"
@@ -106,7 +106,6 @@ def run():
             if doc_abstract is not None and 'Paperwork Reduction Act' not in doc_abstract:
                 abstracts += doc_abstract + '\n\n'
                 formatted_abstracts += f"{title}: \n{doc_abstract} \nFull document: {pdf_url}\n\n"
-
 
             # Make a summary that's about 30% the size of the abstracts
             token_count = num_tokens_from_string(abstracts, gpt_model)
