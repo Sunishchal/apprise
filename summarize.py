@@ -37,7 +37,7 @@ def num_tokens_from_string(string: str, encoding_name: str) -> int:
     num_tokens = len(encoding.encode(string))
     return num_tokens
 
-def run()
+def run():
     # Retrieve API Keys & Gmail app password from env variables
     OPENAI_KEY = os.getenv('OPENAI_KEY')
     openai.api_key = OPENAI_KEY
